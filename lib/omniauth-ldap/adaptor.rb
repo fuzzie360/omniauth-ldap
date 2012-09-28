@@ -14,7 +14,7 @@ module OmniAuth
       class AuthenticationError < StandardError; end
       class ConnectionError < StandardError; end
 
-      VALID_ADAPTER_CONFIGURATION_KEYS = [:host, :port, :method, :bind_dn, :password, :try_sasl, :sasl_mechanisms, :uid, :base, :allow_anonymous, :use_user_credential]
+      VALID_ADAPTER_CONFIGURATION_KEYS = [:host, :port, :method, :bind_dn, :password, :try_sasl, :sasl_mechanisms, :uid, :base, :allow_anonymous, :use_user_credential, :user_host]
 
       MUST_HAVE_KEYS = [:host, :port, :method, :uid, :base]
 
@@ -26,6 +26,7 @@ module OmniAuth
 
       attr_accessor :bind_dn, :password
       attr_accessor :use_user_credential
+      attr_accessor :user_host
       attr_reader :connection, :uid, :base, :auth
       def self.validate(configuration={})
         message = []
