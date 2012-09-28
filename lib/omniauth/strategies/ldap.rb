@@ -41,7 +41,7 @@ module OmniAuth
         raise MissingCredentialsError.new("Missing login credentials") if request['username'].nil? || request['password'].nil?
         
         if @adaptor.use_user_credential
-          @adaptor.bind_dn = request['username'] + '@' + @adaptor.base_to_host(@adaptor.base)
+          @adaptor.bind_dn = request['username'] + '@' + @adaptor.user_host
           @adaptor.password = request['password']
           @adaptor.reset_connection
         end
