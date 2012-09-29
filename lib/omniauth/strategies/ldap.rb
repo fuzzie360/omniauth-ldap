@@ -41,13 +41,13 @@ module OmniAuth
         raise MissingCredentialsError.new("Missing login credentials") if request['username'].nil? || request['password'].nil?
         
         if @adaptor.use_user_credential
-          @adaptor.bind_dn = request['username'] + '@' + @adaptor.user_host
+          @adaptor.bind_dn = @options[:name_proc].call(request['username'])
           @adaptor.password = request['password']
           @adaptor.reset_connection
         end
 
         begin
-          @ldap_user_info = @adaptor.bind_as(:filter => Net::LDAP::Filter.eq(@adaptor.uid, @options[:name_proc].call(request['username'] + '@' + @adaptor.user_host)),:size => 1, :password => request['password'])
+          @ldap_user_info = @adaptor.bind_as(:filter => Net::LDAP::Filter.eq(@adaptor.uid, @options[:name_proc].call(request['username'])),:size => 1, :password => request['password'])
           return fail!(:invalid_credentials) if !@ldap_user_info
 
           @user_info = self.class.map_user(@@config, @ldap_user_info)
